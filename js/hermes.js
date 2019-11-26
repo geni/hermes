@@ -1,56 +1,74 @@
 
-function Hermes(opts){
+function Hermes(opts) {
+  this.server         = opts.server;
+  this.namespace      = opts.namespace || '';
+  this.hermesPrepend  = "hermes-msg:"
+  this.subscriptions  = {};
 
-  var self = this;
-  this.initialize = function(opts){
-    this.server               = opts.server;
-    this.namespace            = opts.namespace || '';
-    this.hermesPrepend        = "hermes-msg:"
-    this.unboundSubscriptions = {};
+  this.resume();
+}
 
-    this.ws           = new WebSocket(this.server);
-    this.ws.onmessage = this.onServerMessage;
-    this.ws.onopen    = this.onConnectionOpen;
-    this.ws.onclose   = this.onConnectionClose;
-   }
+Hermes.prototype = {
 
-  this.onConnectionOpen = function(){
-    for (var s in self.unboundSubscriptions) {
-      self.ws.send(s);
+  onConnectionOpen: function() {
+    for(var topic in this.subscriptions) {
+      if(!this.subscriptions[topic]) {
+        this.ws.send(topic);
+        this.subscriptions[topic] = true;
+      }
     }
-  }
+  },
 
-  this.onConnectionClose = function(){
-    if ( console )
+  onConnectionClose: function() {
+    if(console) {
       console.log("[HERMES] Connection closed.")
-  }
+    }
 
-  this.onServerMessage = function(e){
-    if (e.data == '')
-        return;
+    for(var topic in this.subscriptions) {
+      this.subscriptions[topic] = false;
+    }
+  },
+
+  onServerMessage: function(e) {
+    if(e.data == '') return;
 
     var msg = JSON.parse(e.data);
     msg.event = e; 
-    HermesEvents.publish( self.hermesPrepend + msg.subscription, [msg])
-  }
+    HermesEvents.publish(this.hermesPrepend + msg.subscription, [msg])
+  },
 
-  this.subscribe = function(topic, absolute, callback, name){
+  subscribe: function(topic, absolute, callback, name) {
     // absolute is optional, bypasses namespace
     topic     = (absolute != null && callback != null) ? topic : this.namespace + topic;
     callback  = callback || absolute;
     name      = name || "default";
 
-    if ( this.ws.readyState !== 1 ){
-      this.unboundSubscriptions[topic] = 1;
-    }
-    else {
+    if(this.ws.readyState !== 1) {
+      this.subscriptions[topic] = false;
+    } else {
       this.ws.send(topic);
+      this.subscriptions[topic] = true;
     }
 
-    HermesEvents.subscribe( this.hermesPrepend + topic, name, callback);
-  }
+    HermesEvents.subscribe(this.hermesPrepend + topic, name, callback);
+  },
 
-  this.initialize(opts);
+  pause: function() {
+    this.ws.close(1000);
+    this.ws = null;
+  },
+
+  resume: function() {
+    this.ws           = new WebSocket(this.server);
+    this.ws.onmessage = this.onServerMessage.bind(this);
+    this.ws.onopen    = this.onConnectionOpen.bind(this);
+    this.ws.onclose   = this.onConnectionClose.bind(this);
+  },
+
+  isActive: function() {
+    return this.ws != null;
+  },
+
 }
 
 // Simple Hermes PUBSUB Helper.
@@ -58,18 +76,18 @@ window.HermesEvents = (function (){
   var cache = {},
 
   publish = function (topic, args, scope) {
-    if ( cache[topic] ) {
+    if(cache[topic]) {
       for(var name in cache[topic]){
-        cache[topic][name].apply( scope || this, args || []);
+        cache[topic][name].apply(scope || this, args || []);
       }
     }
   },
 
-  subscribe = function (topic, name, callback) {
-    if ( !cache[topic] )
+  subscribe = function(topic, name, callback) {
+    if(!cache[topic])
         cache[topic] = {};
 
-    if ( cache[topic][name] )
+    if(cache[topic][name])
       cache[topic][name] = null;
 
     cache[topic][name] = callback;
