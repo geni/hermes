@@ -34,7 +34,7 @@ function Hermes(opts) {
         return;
 
     var msg = JSON.parse(e.data);
-    msg.event = e; 
+    msg.event = e;
     HermesEvents.publish(self.hermesPrepend + msg.subscription, [msg])
   }
 
@@ -64,6 +64,12 @@ function Hermes(opts) {
     self.ws.onmessage = self.onServerMessage.bind(self);
     self.ws.onopen    = self.onConnectionOpen.bind(self);
     self.ws.onclose   = self.onConnectionClose.bind(self);
+  }
+
+  this.reset = function() {
+    self.pause();
+    self.subscriptions = {};
+    self.resume();
   }
 
   this.isActive = function() {
