@@ -55,15 +55,20 @@ function Hermes(opts) {
   }
 
   this.pause = function() {
-    self.ws.close(1000);
+    if(self.isActive) self.ws.close(1000);
     self.ws = null;
   }
 
   this.resume = function() {
-    self.ws           = new WebSocket(self.server);
-    self.ws.onmessage = self.onServerMessage.bind(self);
-    self.ws.onopen    = self.onConnectionOpen.bind(self);
-    self.ws.onclose   = self.onConnectionClose.bind(self);
+    try {
+      self.ws           = new WebSocket(self.server);
+      self.ws.onmessage = self.onServerMessage.bind(self);
+      self.ws.onopen    = self.onConnectionOpen.bind(self);
+      self.ws.onclose   = self.onConnectionClose.bind(self);
+    } catch(error) {
+      console.error('Unable to create WebSocket: ', error);
+      self.ws = null;
+    }
   }
 
   this.reset = function() {
