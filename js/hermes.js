@@ -20,9 +20,7 @@ function Hermes(opts) {
   }
 
   this.onConnectionClose = function() {
-    if(console) {
-      console.log("[HERMES] Connection closed.")
-    }
+    if(console) console.log("[HERMES] Connection closed.");
 
     for(var topic in self.subscriptions) {
       self.subscriptions[topic] = false;
@@ -44,7 +42,7 @@ function Hermes(opts) {
     callback  = callback || absolute;
     name      = name || "default";
 
-    if(self.ws.readyState !== 1) {
+    if(self.isPaused || self.ws.readyState !== 1) {
       self.subscriptions[topic] = false;
     } else {
       self.ws.send(topic);
@@ -66,7 +64,7 @@ function Hermes(opts) {
       self.ws.onopen    = self.onConnectionOpen.bind(self);
       self.ws.onclose   = self.onConnectionClose.bind(self);
     } catch(error) {
-      console.error('Unable to create WebSocket: ', error);
+      if(console) console.error('[HERMES] Unable to create WebSocket: ', error);
       self.ws = null;
     }
   }
@@ -79,6 +77,10 @@ function Hermes(opts) {
 
   this.isActive = function() {
     return self.ws != null;
+  },
+
+  this.isPaused = function() {
+    return self.ws == null;
   },
 
   this.initialize(opts);
