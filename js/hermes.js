@@ -45,7 +45,7 @@ function Hermes(opts) {
     if (!topic)
       return;
 
-    if(self.isPaused || self.ws.readyState !== 1) {
+    if(self.isPaused() || self.ws.readyState !== 1) {
       self.subscriptions[topic] = false;
     } else {
       self.ws.send(topic);
@@ -56,7 +56,7 @@ function Hermes(opts) {
   }
 
   this.pause = function() {
-    if(self.isActive) self.ws.close(1000);
+    if(self.isActive()) self.ws.close(1000);
     self.ws = null;
   }
 
