@@ -47,8 +47,7 @@ function Hermes(opts) {
     callback  = callback || absolute;
     name      = name || "default";
 
-    if (!topic)
-      return;
+    if(!topic) return;
 
     if(self.isPaused() || self.ws.readyState !== 1) {
       self.subscriptions[topic] = false;
