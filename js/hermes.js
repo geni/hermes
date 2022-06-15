@@ -4,6 +4,7 @@ function Hermes(opts) {
   this.initialize = function(opts) {
     self.server         = opts.server;
     self.namespace      = opts.namespace || '';
+    self.retryDelaySec  = opts.retryDelaySec || 5;
     self.hermesPrepend  = "hermes-msg:"
     self.subscriptions  = {};
 
@@ -21,11 +22,16 @@ function Hermes(opts) {
   }
 
   this.onConnectionClose = function(event) {
-    if(console) console.log("[HERMES] Connection closed.");
+    if(console) console.log("[HERMES] Connection closed:", event);
 
+    self.pause();
+
+    // preserve subscriptions
     for(var topic in self.subscriptions) {
       self.subscriptions[topic] = false;
     }
+
+    if(!event.wasClean) self.retry();
   }
 
   this.onConnectionError = function(event) {
@@ -81,6 +87,12 @@ function Hermes(opts) {
     self.pause();
     self.subscriptions = {};
     self.resume();
+  }
+
+  this.retry = function() {
+    if(console) console.log('[HERMES] Retrying...');
+
+    setTimeout(self.resume, self.retryDelaySec * 1000);
   }
 
   this.isActive = function() {
