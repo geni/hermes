@@ -96,11 +96,11 @@ function Hermes(opts) {
   }
 
   this.isActive = function() {
-    return self.ws != null;
+    return self.ws != null && self.ws.readyState == 1;
   },
 
   this.isPaused = function() {
-    return self.ws == null;
+    return self.ws == null || self.ws.readyState != 1;
   },
 
   this.initialize(opts);
