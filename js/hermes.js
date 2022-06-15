@@ -55,11 +55,11 @@ function Hermes(opts) {
 
     if(!topic) return;
 
-    if(self.isPaused() || self.ws.readyState !== 1) {
-      self.subscriptions[topic] = false;
-    } else {
+    if(self.isActive()) {
       self.ws.send(topic);
       self.subscriptions[topic] = true;
+    } else {
+      self.subscriptions[topic] = false;
     }
 
     HermesEvents.subscribe(self.hermesPrepend + topic, name, callback);
