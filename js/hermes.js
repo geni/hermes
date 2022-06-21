@@ -10,7 +10,10 @@ function Hermes(opts) {
   }
 
   this.onConnectionOpen = function(event) {
-    if(console) console.log("[HERMES] Connection opened.");
+    if(console) console.log("[HERMES] Connection opened:", event);
+
+    if (event.target != self.ws) window.onerror('Websocket target mismatch');
+
     for(var topic in self.subscriptions) {
       if(!self.subscriptions[topic]) {
         self.ws.send(topic);
@@ -37,6 +40,8 @@ function Hermes(opts) {
   this.onServerMessage = function(event) {
     if(event.data == '')
         return;
+
+    if (event.target != self.ws) window.onerror('Websocket target mismatch');
 
     var msg = JSON.parse(event.data);
     msg.event = event;
@@ -71,6 +76,8 @@ function Hermes(opts) {
   }
 
   this.resume = function() {
+    if (self.isActive() || self.isConnecting()) return;
+
     try {
       self.ws           = new WebSocket(self.server);
       self.ws.onmessage = self.onServerMessage.bind(self);
@@ -97,6 +104,10 @@ function Hermes(opts) {
 
   this.isDead = function() {
     return self.ws == null || self.ws.readyState == WebSocket.CLOSING || self.ws.readyState == WebSocket.CLOSED;
+  }
+
+  this.isConnecting = function() {
+    return self.ws != null && self.ws.readyState == WebSocket.CONNECTING;
   }
 
   this.isActive = function() {
