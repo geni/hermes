@@ -7,8 +7,6 @@ function Hermes(opts) {
     self.retryDelaySec  = opts.retryDelaySec || 5;
     self.hermesPrepend  = "hermes-msg:"
     self.subscriptions  = {};
-
-    self.resume();
   }
 
   this.onConnectionOpen = function(event) {
@@ -23,8 +21,6 @@ function Hermes(opts) {
 
   this.onConnectionClose = function(event) {
     if(console) console.log("[HERMES] Connection closed:", event);
-
-    self.pause();
 
     // preserve subscriptions
     for(var topic in self.subscriptions) {
@@ -55,6 +51,10 @@ function Hermes(opts) {
 
     if(!topic) return;
 
+    if (self.isDead()) {
+      self.resume();
+    }
+
     if(self.isActive()) {
       self.ws.send(topic);
       self.subscriptions[topic] = true;
@@ -66,7 +66,7 @@ function Hermes(opts) {
   }
 
   this.pause = function() {
-    if(self.isActive()) self.ws.close(1000);
+    if (!self.isDead()) self.ws.close(1000);
     self.ws = null;
   }
 
@@ -84,15 +84,19 @@ function Hermes(opts) {
   }
 
   this.reset = function() {
-    self.pause();
     self.subscriptions = {};
-    self.resume();
+    self.pause();
+    HermesEvents.clear();
   }
 
   this.retry = function() {
     if(console) console.log('[HERMES] Retrying...');
 
     setTimeout(self.resume, self.retryDelaySec * 1000);
+  }
+
+  this.isDead = function() {
+    return self.ws == null || self.ws.readyState == WebSocket.CLOSING || self.ws.readyState == WebSocket.CLOSED;
   }
 
   this.isActive = function() {
@@ -127,11 +131,16 @@ window.HermesEvents = (function (){
 
     cache[topic][name] = callback;
     return [topic, name, callback];
+  },
+
+  clear = function() {
+    cache = {};
   }
 
   return {
     publish: publish,
     subscribe: subscribe,
+    clear: clear,
     cache: cache
   };
 
