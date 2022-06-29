@@ -12,12 +12,16 @@ class Hermes
 
   attr_reader :http
 
-  def initialize(url = 'http://localhost:2960')
+  def initialize(url='http://localhost:2960', opts=nil)
+    opts ||= {}
+
     @http = Faraday.new(:url => url) do |faraday|
-      faraday.options[:open_timeout] = 10 # seconds
+      # sets both open and read timeouts
+      faraday.options[:timeout] = opts[:timeout] || 10 # seconds
       faraday.request :json
       faraday.adapter Hermes.adapter
     end
+
   rescue Exception => e
     raise NetworkException.new(e)
   end
