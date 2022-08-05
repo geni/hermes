@@ -1,5 +1,6 @@
 .bundle
 
 log/
+public/coverage
 tmp/
 vendor/
