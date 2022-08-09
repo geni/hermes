@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>Hermes Test</title>
+    <script src='js/hermes.js'></script>
+  </head>
+  <body>
+    <form action='/hermes:test' method='POST'>
+      <table>
+        <tr>
+          <td>
+            <input type='text' name='text' placeholder='type your message here.'/><br/>
+            <button>Send Message</button>
+          </td>
+          <td>
+            <input type='textarea' id='subscribe'></input><br/>
+            Received Message:
+          </td>
+        </tr>
+      </table>
+    </form>
+  </body>
+  <script>
+
+    document.addEventListener('submit', (event) => {
+      const form = event.target;
+      const body = JSON.stringify(Object.fromEntries(new FormData(form)));
+
+      console.log('Publishing:', body, 'to', form.action);
+
+      fetch(form.action, {
+        method: form.method,
+        body:   body,
+      });
+
+      event.preventDefault();
+    })
+
+    var onMessage = function(message, data) {
+      console.log('onMessage', message, data);
+      document.getElementById('subscribe').value = message.data.text;
+    }
+
+    try {
+      const host = `${window.location.hostname}:${window.location.port}`;
+      window.hermes = new Hermes({ server: `ws://${host}/websocket` });
+      console.log('Hermes Loaded...');
+
+      window.hermes.subscribe('hermes:test', false, onMessage, null, true);
+      console.log('Hermes subscribed...');
+
+    } catch (err) {
+      console.log('Error loading Hermes');
+      console.log(err);
+      console.log('err: ', err, err.stack);
+    }
+
+  </script>
+</html>
