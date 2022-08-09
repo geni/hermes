@@ -1,14 +1,16 @@
-require "test_helper"
+require 'test_helper'
 
-class HermesControllerTest < ActionDispatch::IntegrationTest
+class HermesControllerTest < ActionController::TestCase
 
-  test "publish requires PUT" do
-    put "/"
+  test 'index returns OK' do
+    get :index
+    assert_response 200
+    assert_equal 'OK', response.body
+  end
+
+  test 'publish with PUT' do
+    put :publish, :params => {:topic => 'foo'}, :body => '{}'
     assert_response 200
   end
 
-  test "GET publish fails" do
-    get "/"
-    assert_response 405
-  end
 end
