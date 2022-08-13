@@ -12,6 +12,13 @@ gem "puma", "~> 5.0"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+group :development do
+  gem 'aws-sdk',            :require => false
+  gem 'capistrano',         :require => false
+  gem 'capistrano-rails',   :require => false
+  gem 'capistrano-rbenv',   :require => false
+end
+
 group :test do
   gem 'simplecov',  :require => false
 end
