@@ -24,6 +24,9 @@ Rails.application.configure do
 
   config.public_file_server.enabled = true
 
+  # Allow Action Cable access from any origin.
+  config.action_cable.disable_request_forgery_protection = true
+
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
   config.log_level = :debug
@@ -34,6 +37,7 @@ Rails.application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  # Allow Action Cable access from any origin.
-  config.action_cable.disable_request_forgery_protection = true
+  logger           = ActiveSupport::Logger.new("log/#{Rails.env}.log")
+  logger.formatter = config.log_formatter
+  config.logger    = ActiveSupport::TaggedLogging.new(logger)
 end
