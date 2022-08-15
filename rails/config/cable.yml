@@ -10,5 +10,8 @@ aws_dev:
 sandbox:
   adapter: async
 
+aws_stage:
+  adapter: async
+
 aws_prod:
   adapter: async
