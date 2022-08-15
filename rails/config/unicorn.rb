@@ -1,7 +1,7 @@
 # Lifted from: http://unicorn.bogomips.org/examples/unicorn.conf.rb
 
 # should match capistrano deploy_to
-capistrano_deploy_to=ENV.fetch('UNICORN_DEPLOY_DIR', '/opt/hermes/rails')
+capistrano_deploy_to = ENV.fetch('UNICORN_DEPLOY_DIR', '/opt/hermes/rails')
 
 # Use at least one worker per core if you're on a dedicated server,
 # more will usually help for _short_ waits on databases/caches.
@@ -15,10 +15,10 @@ working_directory "#{capistrano_deploy_to}/current" # available in 0.94.0+
 # listen on both a Unix domain socket and a TCP port,
 # we use a shorter backlog for quicker failover when busy
 listen "#{capistrano_deploy_to}/unicorn-hermes.sock", :backlog => 64
-listen (ENV['UNICORN_PORT'] || 2960).to_i, :tcp_nopush => true
+listen ENV.fetch('UNICORN_PORT', 2960).to_i, :tcp_nopush => true
 
 # nuke workers after 120 seconds instead of 60 seconds (the default)
-timeout (ENV['UNICORN_TIMEOUT'] || 120).to_i
+timeout ENV.fetch('UNICORN_TIMEOUT', 120).to_i
 
 pid "#{capistrano_deploy_to}/run/unicorn.pid"
 
