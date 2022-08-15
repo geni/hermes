@@ -36,7 +36,8 @@ if GC.respond_to?(:copy_on_write_friendly=)
 end
 
 before_fork do |server, worker|
-  ActiveRecord::Base.clear_all_connections!
+# Not currently using ActiveRecord
+#  ActiveRecord::Base.clear_all_connections!
 
    # Kill previous instance
    old_pid = "#{server.config[:pid]}.oldbin"
@@ -50,5 +51,6 @@ before_fork do |server, worker|
 end
 
 after_fork do |server, worker|
-  ActiveRecord::Base.establish_connection
+# Not currently using ActiveRecord
+#  ActiveRecord::Base.establish_connection
 end
