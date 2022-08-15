@@ -4,5 +4,8 @@ development:
 test:
   adapter: test
 
+aws_dev:
+  adapter: async
+
 aws_prod:
   adapter: async
