@@ -22,6 +22,7 @@ Rails.application.configure do
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true
 
+  # Enable serving static files from the `/public` folder.
   config.public_file_server.enabled = true
 
   # Allow Action Cable access from any origin.
@@ -37,7 +38,4 @@ Rails.application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  logger           = ActiveSupport::Logger.new("log/#{Rails.env}.log")
-  logger.formatter = config.log_formatter
-  config.logger    = ActiveSupport::TaggedLogging.new(logger)
 end
