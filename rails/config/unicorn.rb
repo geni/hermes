@@ -14,8 +14,8 @@ working_directory "#{capistrano_deploy_to}/current" # available in 0.94.0+
 
 # listen on both a Unix domain socket and a TCP port,
 # we use a shorter backlog for quicker failover when busy
-listen "#{capistrano_deploy_to}/.unicorn-hermes.sock", :backlog => 64
-listen (ENV['UNICORN_PORT'] || 8080).to_i, :tcp_nopush => true
+listen "#{capistrano_deploy_to}/unicorn-hermes.sock", :backlog => 64
+listen (ENV['UNICORN_PORT'] || 2960).to_i, :tcp_nopush => true
 
 # nuke workers after 120 seconds instead of 60 seconds (the default)
 timeout (ENV['UNICORN_TIMEOUT'] || 120).to_i
