@@ -22,7 +22,7 @@ bind "tcp://0.0.0.0:#{ENV.fetch('PUMA_PORT', 2960)}/?tcp_nopush=true"
 
 install_base_dir = ENV.fetch('PUMA_BASE_DIR', '/opt/hermes/rails')
 if File.exists?(install_base_dir)
-  bind "unix://#{install_bas_dir}/run/puma-hermes.sock?umask=0111&backlog=64"
+  bind "unix://#{install_base_dir}/run/puma-hermes.sock?umask=0111&backlog=64"
 end
 
 # Specifies the `environment` that Puma will run in.
