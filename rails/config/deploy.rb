@@ -109,7 +109,7 @@ def get_ec2_hosts(roles, rails_env=fetch(:stage))
   client  = Aws::EC2::Client.new(:profile => fetch(:aws_profile))
   hosts   = client.describe_instances(:filters => [
               {:name => 'tag:geni:capistrano:roles',  :values => ['*']},
-              {:name => 'tag:geni:project',           :values => [fetch(:project)]},
+              {:name => 'tag:geni:project',           :values => ["*#{fetch(:project)}*"]},
               {:name => 'tag:geni:RAILS_ENV',         :values => [rails_env]},
               {:name => 'instance-state-name',        :values => ['running']},
             ]).reservations.map(&:instances).flatten
