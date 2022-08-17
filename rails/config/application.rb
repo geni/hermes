@@ -38,5 +38,11 @@ module Hermes
 
     # We're going to do the mounting in config/routes.rb
     config.action_cable.mount_path = nil
+
+    # We're not using this for now
+    def secret_key_base
+      'unused'
+    end
+
   end
 end
