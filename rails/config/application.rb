@@ -40,7 +40,7 @@ module Hermes
     config.action_cable.mount_path = nil
 
     # We're not using this for now
-    def secret_key_base
+    def self.secret_key_base
       'unused'
     end
 
