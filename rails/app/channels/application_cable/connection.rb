@@ -58,7 +58,7 @@ module ApplicationCable
       @remote_ip ||= if request.env['HTTP_X_FORWARDED_FOR']
         # some proxy is prepending non-routable IP addresses to the forwarded_for header
         # we want to skip those and return the first routable IP
-        candidates = request.env['HTTP_X_FORWARDED_FOR'].split(',').apply(:strip)
+        candidates = request.env['HTTP_X_FORWARDED_FOR'].split(',').map(&:strip)
         if candidates.size == 1
           candidates.first
         else
