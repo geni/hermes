@@ -3,7 +3,7 @@ module ApplicationCable
     identified_by :ip, :websocket_key
 
     def connect
-      self.ip = request.remote_ip
+      self.ip = remote_ip
 
       # Each websocket connection generates a unique key.
       # This will allow us to differentiate between browser tabs
@@ -50,6 +50,23 @@ module ApplicationCable
     # For now we're going to rely on the WebSocket/TCP to notify us
     # When the WebSocket disconnects (eg via tab closure)
     def beat
+    end
+
+  private
+
+    def remote_ip
+      @remote_ip ||= if request.env['HTTP_X_FORWARDED_FOR']
+        # some proxy is prepending non-routable IP addresses to the forwarded_for header
+        # we want to skip those and return the first routable IP
+        candidates = request.env['HTTP_X_FORWARDED_FOR'].split(',').apply(:strip)
+        if candidates.size == 1
+          candidates.first
+        else
+          candidates.detect {|ip| ip =~ /^:*\d+\.\d+\.\d+\.\d+$/ && IPAddr.routable?(ip)}
+        end
+      else
+        request.remote_ip
+      end.sub(/^::/, '') # Not ready for IPv6
     end
 
   end
