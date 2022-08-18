@@ -6,7 +6,7 @@ namespace :deploy do
   task :restart_web do
     next if my_env('no_restart') || my_env('no_restart_web')
 
-    pid_file = "#{fetch(:deploy_to)}/run/unicorn.pid"
+    pid_file = "#{fetch(:deploy_to)}/run/puma.pid"
 
     on roles(:app) do |host|
       if test "[ -e #{pid_file} ]"
