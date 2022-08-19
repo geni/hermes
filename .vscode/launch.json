@@ -11,7 +11,7 @@
       "pathToRDebugIDE": "${workspaceRoot}/rails/bin/rdebug-ide",
       "cwd": "${workspaceRoot}/rails",
       "program": "${workspaceRoot}/rails/bin/rails",
-      "args": ["server", "-b", "0.0.0.0"]
+      "args": ["server", "-b", "0.0.0.0", "-p", "2960"]
     },
     {
       "name": "Debug test at cursor",
