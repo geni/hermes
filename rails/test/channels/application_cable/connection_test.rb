@@ -10,8 +10,13 @@ class ApplicationCable::ConnectionTest < ActionCable::Connection::TestCase
     connection.instance_variable_set(:@coder, ActiveSupport::JSON)
   end
 
-  test "connect" do
+  test 'connect' do
     assert_equal '127.0.0.42', connection.ip
+  end
+
+  test 'connect parses X-FORWARDED-FOR header' do
+    connect '/websocket', :headers => {"HTTP_X_FORWARDED_FOR" => '1.1.1.1,2.2.2.2'}
+    assert_equal '1.1.1.1', connection.ip
   end
 
   test 'encode returns blank for typed message' do
