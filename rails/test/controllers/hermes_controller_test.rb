@@ -13,4 +13,12 @@ class HermesControllerTest < ActionController::TestCase
     assert_response 200
   end
 
+  test 'dashboard' do
+    get :dashboard
+
+    result = JSON.parse(response.body)
+    assert_equal 0, result['total_subscribers'], 'total_subscribers should be 0'
+    assert_equal 0, result['total_subscriptions'], 'total_subscriptions should be 0'
+  end
+
 end
