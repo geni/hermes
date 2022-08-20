@@ -6,5 +6,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "hermes#index"
 
-  match '/*topic' => 'hermes#publish', :via => [:post, :put]
+  get   '/dashboard' => 'hermes#dashboard'
+  post  '/*topic'    => 'hermes#publish'
+  put   '/*topic'    => 'hermes#publish'
 end

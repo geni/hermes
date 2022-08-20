@@ -1,9 +1,12 @@
 class HermesController < ApplicationController
 
-  # I'd like to have this return a list of topics
-  # and their subscriber counts
   def index
     render :plain => 'OK', :status => 200
+  end
+
+  def dashboard
+    @dashboard = Dashboard.new
+    render :json => @dashboard.to_json
   end
 
   def publish
