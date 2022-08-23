@@ -9,3 +9,11 @@ it easier for us to maintain.
 ### Setup development environment
 
 ``bundle install --path=vendor/bundle --clean``
+
+### Run the development server
+
+``bundle exec rails server``
+
+### Run the console
+
+``bundle exec rails console``
