@@ -71,3 +71,26 @@ git merge upgrade_ruby
 git push
 git branch -d upgrade_ruby
 ```
+
+#### Update rails gem in-place
+
+```sh
+git co -b update_rails
+
+# Update the rails line in Gemfile
+rm Gemfile.lock
+bundle install
+
+bundle exec rails app:update
+# resolve diffs
+
+# Should be 100% coverage
+bundle exec rails test:coverage
+
+git add -p
+git commit -v
+git co master
+git merge update_rails
+git push
+git branch -d update_rails
+```
