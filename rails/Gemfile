@@ -16,7 +16,7 @@ gem "sd_notify"
 gem "bootsnap", require: false
 
 group :development do
-  gem 'aws-sdk',            :require => false
+  gem 'aws-sdk-ec2',        :require => false
   gem 'capistrano',         :require => false
   gem 'capistrano-rails',   :require => false
   gem 'capistrano-rbenv',   :require => false
