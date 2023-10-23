@@ -17,3 +17,25 @@ it easier for us to maintain.
 ### Run the console
 
 ``bundle exec rails console``
+
+### Update the gems
+
+Here's what I do to update the gems.
+
+```sh
+git co -b update_gems
+
+rm Gemfile.lock
+bundle install
+
+# should be 100% coverage
+bundle exec rails test:coverage
+
+git add -p
+git commit -v
+git co master
+git merge update_gems
+git push
+git branch -d update_gems
+```
+
