@@ -300,13 +300,16 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rbenv
   debase!
-  puma
-  rails (~> 7.1.0)
+  puma (>= 5.0)
+  rails (~> 7.1.1)
   ruby-debug-ide
   sd_notify
   simplecov
   solargraph
   solargraph-rails
+
+RUBY VERSION
+   ruby 3.2.2p53
 
 BUNDLED WITH
    2.4.10

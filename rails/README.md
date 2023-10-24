@@ -8,15 +8,29 @@ it easier for us to maintain.
 
 ### Setup development environment
 
-``bundle install --path=vendor/bundle --clean``
+```sh
+bundle config set --local clean 'true'
+bundle config set --local path 'vendor/bundle'
+bundle install
+```
 
 ### Run the development server
 
-``bundle exec rails server``
+``bundle exec rails server -b 0.0.0.0``
 
-### Run the console
+### Run automated tests
 
-``bundle exec rails console``
+```sh
+# Should be 100%
+bundle exec rails test:coverage
+```
+
+### Test the server
+
+```sh
+bundle exec rails server -b 0.0.0.0
+# browse to: <host>:3000/test
+```
 
 ### Update the gems
 
@@ -46,7 +60,7 @@ First, I update ruby.
 Then I update the rails gem in-place.
 Then I re-create the app from scratch and copy the source files over.
 
-[Instrutions](https://guides.rubyonrails.org/upgrading_ruby_on_rails.html)
+[Rails Upgrade Guide](https://guides.rubyonrails.org/upgrading_ruby_on_rails.html)
 
 #### Update ruby
 
@@ -93,4 +107,49 @@ git co master
 git merge update_rails
 git push
 git branch -d update_rails
+```
+
+#### Re-create app and copy source over
+
+This ensures that all the rails files we haven't touched are up to date.
+
+```sh
+git co -b upgrade_rails
+
+# In the same directory as rails
+rails new hermes \
+    --skip-git \
+    --skip-keeps \
+    --skip-mailer \
+    --skip-mailbox \
+    --skip-action-text\
+    --skip-active-record \
+    --skip-active-storage \
+    --skip-asset-pipeline \
+    --skip-javascript \
+    --skip-hotwire \
+    --skip-jbuilder \
+    --skip-bundle \
+    --api
+
+mv rails rails.old
+mv hermes rails
+
+# git checkout deleted files 
+# resolve diffs
+
+rm Gemfile.lock
+bundle config set --local clean 'true'
+bundle config set --local path 'vendor/bundle'
+bundle install
+
+# Should be 100% coverage
+bundle exec rails test:coverage
+
+git add -p
+git commit -v
+git co master
+git merge upgrade_rails
+git push
+git branch -d upgrade_rails
 ```
