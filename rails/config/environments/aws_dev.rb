@@ -3,6 +3,11 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Use default logging formatter so that PID and timestamp are not suppressed.
+  config.logger = ActiveSupport::Logger.new("#{Rails.root}/log/#{Rails.env}.log")
+    .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
+    .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
@@ -35,8 +40,4 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
-  # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.logger = ActiveSupport::Logger.new("#{Rails.root}/log/#{Rails.env}.log")
-    .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
-    .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 end
