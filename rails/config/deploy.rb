@@ -1,7 +1,5 @@
-require 'aws-sdk'
-
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.17.1"
+lock "~> 3.18.0"
 
 set :application, "hermes"
 set :project, "hermes"
@@ -53,7 +51,7 @@ set :local_user, 'hermes'
 # capistrano-bundler configuration (https://github.com/capistrano/bundler)
 append :linked_dirs, '.bundle'
 set    :bundle_flags, ''
-set    :bundle_without, 'deployment:development:test'
+set    :bundle_without, 'deployment:development:test:vscode'
 set    :bundle_config, {
                         'force_ruby_platform' => 'true'
                        }
@@ -102,22 +100,4 @@ def git_opts
     :limit => fetch(:git_max_concurrent_connections),
     :wait  => fetch(:git_wait_interval),
   }
-end
-
-def get_ec2_hosts(roles, rails_env=fetch(:stage))
-  roles   = [roles].flatten.map(&:to_s)
-  client  = Aws::EC2::Client.new(:profile => fetch(:aws_profile))
-  hosts   = client.describe_instances(:filters => [
-              {:name => 'tag:geni:capistrano:roles',  :values => ['*']},
-              {:name => 'tag:geni:project',           :values => ["*#{fetch(:project)}*"]},
-              {:name => 'tag:geni:RAILS_ENV',         :values => [rails_env]},
-              {:name => 'instance-state-name',        :values => ['running']},
-            ]).reservations.map(&:instances).flatten
-
-  hosts.select! do |host|
-    host_roles = host.tags.find {|tag| tag.key == 'geni:capistrano:roles'}.value.split(/[,\s]/)
-    (roles & host_roles).any?
-  end
-
-  return hosts.sort_by!{ |host| host.tags.find{|tag| tag.key == 'Name'}.value }
 end
