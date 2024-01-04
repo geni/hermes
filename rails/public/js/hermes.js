@@ -5,12 +5,13 @@ function Hermes(opts) {
     self.server         = opts.server;
     self.namespace      = opts.namespace || '';
     self.retryDelaySec  = opts.retryDelaySec || 5;
+    self.console        = opts.console;
     self.hermesPrepend  = "hermes-msg:"
     self.subscriptions  = {};
   }
 
   this.onConnectionOpen = function(event) {
-    if(console) console.log("[HERMES] Connection opened:", event);
+    if(self.console) self.console.log("[HERMES] Connection opened:", event);
 
     if (event.target != self.ws) window.onerror('Websocket target mismatch');
 
@@ -23,7 +24,7 @@ function Hermes(opts) {
   }
 
   this.onConnectionClose = function(event) {
-    if(console) console.log("[HERMES] Connection closed:", event);
+    if(self.console) self.console.log("[HERMES] Connection closed:", event);
 
     // preserve subscriptions
     for(var topic in self.subscriptions) {
@@ -34,7 +35,7 @@ function Hermes(opts) {
   }
 
   this.onConnectionError = function(event) {
-    if(console) console.log('[HERMES] Connection error:', event);
+    if(self.console) self.console.log('[HERMES] Connection error:', event);
   }
 
   this.onServerMessage = function(event) {
@@ -85,7 +86,7 @@ function Hermes(opts) {
       self.ws.onclose   = self.onConnectionClose.bind(self);
       self.ws.onerror   = self.onConnectionError.bind(self);
     } catch(error) {
-      if(console) console.error('[HERMES] Unable to create WebSocket: ', error);
+      if(self.console) self.console.error('[HERMES] Unable to create WebSocket: ', error);
       self.ws = null;
     }
   }
@@ -97,7 +98,7 @@ function Hermes(opts) {
   }
 
   this.retry = function() {
-    if(console) console.log('[HERMES] Retrying...');
+    if(self.console) self.console.log('[HERMES] Retrying...');
 
     setTimeout(self.resume, self.retryDelaySec * 1000);
   }
