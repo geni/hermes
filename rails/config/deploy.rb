@@ -1,5 +1,5 @@
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.18.0"
+lock "~>3.0"
 
 set :application, "hermes"
 set :project, "hermes"
