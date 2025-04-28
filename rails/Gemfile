@@ -27,7 +27,12 @@ end
 
 group :vscode do
   gem 'debase',           :require => false
+  gem 'debug',            :require => false
+  gem 'rainbow',          :require => false
+  gem 'rdbg',             :require => false
   gem "ruby-debug-ide",   :require => false
+  gem 'ruby-lsp',         :require => false
+  gem 'ruby-lsp-rails',   :require => false
   gem 'solargraph',       :require => false
   gem 'solargraph-rails', :require => false
 end

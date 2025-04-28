@@ -4,17 +4,17 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "analyze file",
+      "type": "shell",
+      "command": "ruby -c ${file}",
+      "presentation": {
+        "clear": true
+      }
+    },{
       "label": "run all tests in file",
-      "group": {
-        "kind": "test",
-        "isDefault": true
-      },
+      "group": "test",
       "type": "shell",
       "command": "rails test ${file}",
-      "options": {
-        "cwd": "${workspaceFolder}/rails"
-      },
-      "problemMatcher": [],
       "presentation": {
         "clear": true
       }
@@ -24,10 +24,6 @@
       "group": "test",
       "type": "shell",
       "command": "rails test ${file}:${lineNumber}",
-      "options": {
-        "cwd": "${workspaceFolder}/rails"
-      },
-      "problemMatcher": [],
       "presentation": {
         "clear": true
       }

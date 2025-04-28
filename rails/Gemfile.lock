@@ -122,6 +122,9 @@ GEM
     debase (0.2.9)
       debase-ruby_core_source (>= 3.4.1)
     debase-ruby_core_source (3.4.1)
+    debug (1.10.0)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
     diff-lcs (1.6.1)
     docile (1.4.1)
     drb (2.2.1)
@@ -236,6 +239,8 @@ GEM
     rake (13.2.1)
     rbs (3.9.2)
       logger
+    rdbg (0.1.0)
+      debug (>= 1.2.2)
     rdoc (6.13.1)
       psych (>= 4.0.0)
     regexp_parser (2.10.0)
@@ -260,6 +265,13 @@ GEM
       prism (~> 1.4)
     ruby-debug-ide (0.7.5)
       rake (>= 0.8.1)
+    ruby-lsp (0.23.15)
+      language_server-protocol (~> 3.17.0)
+      prism (>= 1.2, < 2.0)
+      rbs (>= 3, < 4)
+      sorbet-runtime (>= 0.5.10782)
+    ruby-lsp-rails (0.4.1)
+      ruby-lsp (>= 0.23.14, < 0.24.0)
     ruby-progressbar (1.13.0)
     sd_notify (0.1.1)
     securerandom (0.4.1)
@@ -291,6 +303,7 @@ GEM
     solargraph-rails (1.1.0)
       activesupport
       solargraph
+    sorbet-runtime (0.5.12043)
     sshkit (1.24.0)
       base64
       logger
@@ -327,9 +340,14 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rbenv
   debase
+  debug
   puma (>= 5.0)
   rails (~> 7.1.1)
+  rainbow
+  rdbg
   ruby-debug-ide
+  ruby-lsp
+  ruby-lsp-rails
   sd_notify
   simplecov
   solargraph
