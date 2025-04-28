@@ -11,6 +11,8 @@ it easier for us to maintain.
 ```sh
 bundle config set --local clean 'true'
 bundle config set --local path 'vendor/bundle'
+# For nokogiri gem
+bundle config set --local force_ruby_platform 'true'
 bundle install
 ```
 
@@ -135,7 +137,7 @@ rails new hermes \
 mv rails rails.old
 mv hermes rails
 
-# git checkout deleted files 
+# git checkout deleted files
 # resolve diffs
 
 rm Gemfile.lock

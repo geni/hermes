@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.2.2"
+ruby "~>3.4.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.1"
@@ -26,7 +26,7 @@ group :test do
 end
 
 group :vscode do
-  gem 'debase',           :require => false, :git => 'https://github.com/ruby-debug/debase.git', :tag => 'v0.2.5.beta2'
+  gem 'debase',           :require => false
   gem "ruby-debug-ide",   :require => false
   gem 'solargraph',       :require => false
   gem 'solargraph-rails', :require => false
