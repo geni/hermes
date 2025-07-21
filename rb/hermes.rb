@@ -28,7 +28,7 @@ class Hermes
 
   def escape_topic(topic)
     # Faraday does not like colons in your url.
-    URI.escape(topic).gsub(':', '%3A')
+    URI::DEFAULT_PARSER.escape(topic).gsub(':', '%3A')
   end
 
   def publish(topic, data = {}, &block)
