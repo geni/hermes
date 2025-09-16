@@ -38,7 +38,6 @@ namespace.subscribe('alert', true, function(e){
 })
 ```
 
-
 ## Sending events
 
     curl -v -H "Content-Type: application/json" -X PUT -d '{"num":1}' 'localhost:2960/inbox-count'
