@@ -80,7 +80,6 @@ GEM
       tzinfo (~> 2.0)
     airbrussh (1.5.3)
       sshkit (>= 1.6.1, != 1.7.0)
-    ast (2.4.3)
     aws-eventstream (1.4.0)
     aws-partitions (1.1160.0)
     aws-sdk-core (3.232.0)
@@ -96,7 +95,6 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    backport (1.2.0)
     base64 (0.3.0)
     benchmark (0.4.1)
     bigdecimal (3.2.3)
@@ -120,13 +118,6 @@ GEM
     connection_pool (2.5.4)
     crass (1.0.6)
     date (3.4.1)
-    debase (0.2.9)
-      debase-ruby_core_source (>= 3.4.1)
-    debase-ruby_core_source (3.4.1)
-    debug (1.11.0)
-      irb (~> 1.10)
-      reline (>= 0.3.8)
-    diff-lcs (1.6.2)
     docile (1.4.1)
     drb (2.2.3)
     erb (5.0.2)
@@ -140,15 +131,8 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    jaro_winkler (1.6.1)
     jmespath (1.6.2)
-    json (2.13.2)
-    kramdown (2.5.1)
-      rexml (>= 3.3.9)
-    kramdown-parser-gfm (1.1.0)
-      kramdown (~> 2.0)
     language_server-protocol (3.17.0.5)
-    lint_roller (1.1.0)
     logger (1.7.0)
     loofah (2.24.1)
       crass (~> 1.0.2)
@@ -184,16 +168,11 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
-    observer (0.1.2)
     ostruct (0.6.3)
-    parallel (1.27.0)
-    parser (3.3.9.0)
-      ast (~> 2.4.1)
-      racc
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
-    prism (1.5.1)
+    prism (1.9.0)
     psych (5.2.6)
       date
       stringio
@@ -237,44 +216,20 @@ GEM
       rake (>= 12.2)
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
-    rainbow (3.1.1)
     rake (13.3.0)
     rbs (3.9.5)
       logger
-    rdbg (0.1.0)
-      debug (>= 1.2.2)
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
-    regexp_parser (2.11.3)
     reline (0.6.2)
       io-console (~> 0.5)
-    reverse_markdown (3.0.0)
-      nokogiri
-    rexml (3.4.4)
-    rubocop (1.80.2)
-      json (~> 2.3)
-      language_server-protocol (~> 3.17.0.2)
-      lint_roller (~> 1.1.0)
-      parallel (~> 1.10)
-      parser (>= 3.3.0.2)
-      rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 2.9.3, < 3.0)
-      rubocop-ast (>= 1.46.0, < 2.0)
-      ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.46.0)
-      parser (>= 3.3.7.2)
-      prism (~> 1.4)
-    ruby-debug-ide (0.7.5)
-      rake (>= 0.8.1)
     ruby-lsp (0.26.1)
       language_server-protocol (~> 3.17.0)
       prism (>= 1.2, < 2.0)
       rbs (>= 3, < 5)
     ruby-lsp-rails (0.4.8)
       ruby-lsp (>= 0.26.0, < 0.27.0)
-    ruby-progressbar (1.13.0)
     sd_notify (0.1.1)
     securerandom (0.4.1)
     simplecov (0.22.0)
@@ -283,29 +238,6 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.13.2)
     simplecov_json_formatter (0.1.4)
-    solargraph (0.56.0)
-      backport (~> 1.2)
-      benchmark (~> 0.4)
-      bundler (~> 2.0)
-      diff-lcs (~> 1.4)
-      jaro_winkler (~> 1.6, >= 1.6.1)
-      kramdown (~> 2.3)
-      kramdown-parser-gfm (~> 1.1)
-      logger (~> 1.6)
-      observer (~> 0.1)
-      ostruct (~> 0.6)
-      parser (~> 3.0)
-      prism (~> 1.4)
-      rbs (~> 3.3)
-      reverse_markdown (~> 3.0)
-      rubocop (~> 1.38)
-      thor (~> 1.0)
-      tilt (~> 2.0)
-      yard (~> 0.9, >= 0.9.24)
-      yard-solargraph (~> 0.1)
-    solargraph-rails (1.2.3)
-      activesupport
-      solargraph (>= 0.48.0, < 0.57)
     sshkit (1.24.0)
       base64
       logger
@@ -315,20 +247,13 @@ GEM
       ostruct
     stringio (3.1.7)
     thor (1.4.0)
-    tilt (2.6.1)
     timeout (0.4.3)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (3.2.0)
-      unicode-emoji (~> 4.1)
-    unicode-emoji (4.1.0)
     websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    yard (0.9.37)
-    yard-solargraph (0.1.0)
-      yard (~> 0.9)
     zeitwerk (2.7.3)
 
 PLATFORMS
@@ -341,19 +266,15 @@ DEPENDENCIES
   capistrano
   capistrano-rails
   capistrano-rbenv
-  debase
-  debug
+  minitest (~> 5.0)
+  prism (~> 1.9.0)
   puma (>= 5.0)
   rails (~> 7.1.1)
-  rainbow
-  rdbg
-  ruby-debug-ide
-  ruby-lsp
+  rbs
+  ruby-lsp (>= 0.18.0)
   ruby-lsp-rails
   sd_notify
   simplecov
-  solargraph
-  solargraph-rails
 
 RUBY VERSION
    ruby 3.4.1p0
