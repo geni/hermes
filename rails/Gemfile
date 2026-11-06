@@ -19,6 +19,12 @@ group :development do
   gem 'capistrano',         :require => false
   gem 'capistrano-rails',   :require => false
   gem 'capistrano-rbenv',   :require => false
+
+  # net-ssh (capistrano -> sshkit -> net-ssh) needs these to authenticate with
+  # an ed25519 SSH key. They are optional net-ssh dependencies, so they have to
+  # be requested explicitly. net-ssh requires them on demand.
+  gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0', :require => false
+  gem 'ed25519',      '>= 1.2', '< 2.0', :require => false
 end
 
 group :test do
